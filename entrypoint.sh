@@ -8,6 +8,7 @@ fail() {
 }
 
 PORT="${PORT:-8080}"
+XRAY_PORT="${XRAY_PORT:-10000}"
 UUID="${UUID:-}"
 WS_PATH="${WS_PATH:-/vless}"
 
@@ -15,8 +16,20 @@ case "$PORT" in
   ''|*[!0-9]*) fail "PORT must be a number" ;;
 esac
 
+case "$XRAY_PORT" in
+  ''|*[!0-9]*) fail "XRAY_PORT must be a number" ;;
+esac
+
 if [ "$PORT" -lt 1 ] || [ "$PORT" -gt 65535 ]; then
   fail "PORT must be between 1 and 65535"
+fi
+
+if [ "$XRAY_PORT" -lt 1 ] || [ "$XRAY_PORT" -gt 65535 ]; then
+  fail "XRAY_PORT must be between 1 and 65535"
+fi
+
+if [ "$PORT" = "$XRAY_PORT" ]; then
+  fail "PORT and XRAY_PORT must be different"
 fi
 
 if ! printf '%s' "$UUID" | grep -Eq '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'; then
@@ -43,8 +56,8 @@ cat > /tmp/config.json <<EOF
   },
   "inbounds": [
     {
-      "listen": "0.0.0.0",
-      "port": ${PORT},
+      "listen": "127.0.0.1",
+      "port": ${XRAY_PORT},
       "protocol": "vless",
       "settings": {
         "clients": [
@@ -71,4 +84,23 @@ cat > /tmp/config.json <<EOF
 }
 EOF
 
-exec xray run -config /tmp/config.json
+xray run -config /tmp/config.json &
+xray_pid="$!"
+
+trap 'kill "$xray_pid" 2>/dev/null || true' INT TERM
+
+sleep 1
+if ! kill -0 "$xray_pid" 2>/dev/null; then
+  fail "xray failed to start"
+fi
+
+node /server.js &
+server_pid="$!"
+
+wait "$server_pid"
+status="$?"
+
+kill "$xray_pid" 2>/dev/null || true
+wait "$xray_pid" 2>/dev/null || true
+
+exit "$status"
