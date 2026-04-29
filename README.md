@@ -21,7 +21,7 @@ UUID 建议只放在 Render 环境变量中：
 
 ## Render 配置
 
-1. 创建 Web Service，选择从 GitHub 仓库部署。
+1. 创建 Web Service，选择从 GitHub 仓库部署，服务名使用 `vtls-18230`。
 2. Runtime 选择 Docker，Dockerfile 路径使用 `./Dockerfile`。
 3. Plan 选择 Free 或其它需要的实例类型。
 4. Health Check Path 设置为 `/`。
