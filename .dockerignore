@@ -1,0 +1,7 @@
+.git
+.gitignore
+README.md
+clash-template.yaml
+.env
+local-values.txt
+*.local.yaml

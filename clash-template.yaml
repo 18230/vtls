@@ -1,0 +1,31 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+
+proxies:
+  - name: Northflank-VLESS
+    type: vless
+    server: YOUR_NORTHFLANK_DOMAIN
+    port: 443
+    uuid: YOUR_UUID
+    encryption: none
+    network: ws
+    tls: true
+    udp: false
+    skip-cert-verify: false
+    servername: YOUR_NORTHFLANK_DOMAIN
+    ws-opts:
+      path: /vless
+      headers:
+        Host: YOUR_NORTHFLANK_DOMAIN
+
+proxy-groups:
+  - name: PROXY
+    type: select
+    proxies:
+      - Northflank-VLESS
+      - DIRECT
+
+rules:
+  - MATCH,PROXY
