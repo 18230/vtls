@@ -1,23 +1,37 @@
+---
+title: vtls
+sdk: docker
+app_port: 8080
+pinned: false
+---
+
 # vtls
 
-基于官方 `XTLS/Xray-core` 镜像的 Render 部署模板，协议为 `VLESS + WebSocket`。Render 负责外层 HTTPS/TLS，容器内 Xray 只监听普通 WebSocket。
+基于官方 `XTLS/Xray-core` 镜像的 Docker 部署模板，协议为 `VLESS + WebSocket`。平台负责外层 HTTPS/TLS，容器内 Xray 只监听普通 WebSocket。
 
 ## 环境变量
 
-在 Render Web Service 中配置：
+在部署平台中配置：
 
 ```text
-PORT=10000
+PORT=8080
 UUID=replace-with-your-uuid
 WS_PATH=/vless
-XRAY_PORT=10001
+XRAY_PORT=10000
 ```
 
-UUID 建议只放在 Render 环境变量中：
+UUID 建议只放在平台 Secret/环境变量中：
 
 ```text
 使用部署时提供的 UUID，不要把真实 UUID 提交到公开仓库。
 ```
+
+## Hugging Face Spaces 配置
+
+1. 创建 Space，SDK 选择 Docker。
+2. Visibility 可选择 Public，Hardware 选择 CPU basic。
+3. 在 Space 的 Settings 中添加 Secret/Variable：`UUID`、`WS_PATH=/vless`、`PORT=8080`、`XRAY_PORT=10000`。
+4. 部署完成后访问 `/health`，返回 `ok` 表示容器入口正常。
 
 ## Render 配置
 
@@ -32,7 +46,7 @@ UUID 建议只放在 Render 环境变量中：
 
 部署完成后，把 `clash-template.yaml` 里的两处占位符替换掉：
 
-- `YOUR_RENDER_DOMAIN` 替换为 Render 公网域名。
-- `YOUR_UUID` 替换为你在 Render 环境变量中设置的 UUID。
+- `YOUR_RENDER_DOMAIN` 替换为平台公网域名。
+- `YOUR_UUID` 替换为你在平台 Secret/环境变量中设置的 UUID。
 
-客户端仍然使用 `port: 443` 和 `tls: true`，因为 TLS 在 Render 边缘处理。
+客户端仍然使用 `port: 443` 和 `tls: true`，因为 TLS 在平台边缘处理。

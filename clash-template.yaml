@@ -4,9 +4,9 @@ mode: rule
 log-level: info
 
 proxies:
-  - name: Render-VLESS
+  - name: VLESS-WS
     type: vless
-    server: YOUR_RENDER_DOMAIN
+    server: YOUR_DOMAIN
     port: 443
     uuid: YOUR_UUID
     encryption: none
@@ -14,17 +14,17 @@ proxies:
     tls: true
     udp: false
     skip-cert-verify: false
-    servername: YOUR_RENDER_DOMAIN
+    servername: YOUR_DOMAIN
     ws-opts:
       path: /vless
       headers:
-        Host: YOUR_RENDER_DOMAIN
+        Host: YOUR_DOMAIN
 
 proxy-groups:
   - name: PROXY
     type: select
     proxies:
-      - Render-VLESS
+      - VLESS-WS
       - DIRECT
 
 rules:
