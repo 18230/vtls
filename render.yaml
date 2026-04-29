@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: vtls
+    runtime: docker
+    plan: free
+    branch: main
+    autoDeployTrigger: commit
+    healthCheckPath: /
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: XRAY_PORT
+        value: "10001"
+      - key: UUID
+        sync: false
+      - key: WS_PATH
+        value: /vless

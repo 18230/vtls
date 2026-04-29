@@ -63,7 +63,7 @@ cat > /tmp/config.json <<EOF
         "clients": [
           {
             "id": "${UUID}",
-            "email": "northflank"
+            "email": "render"
           }
         ],
         "decryption": "none"

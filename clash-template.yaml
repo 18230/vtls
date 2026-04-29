@@ -4,9 +4,9 @@ mode: rule
 log-level: info
 
 proxies:
-  - name: Northflank-VLESS
+  - name: Render-VLESS
     type: vless
-    server: YOUR_NORTHFLANK_DOMAIN
+    server: YOUR_RENDER_DOMAIN
     port: 443
     uuid: YOUR_UUID
     encryption: none
@@ -14,17 +14,17 @@ proxies:
     tls: true
     udp: false
     skip-cert-verify: false
-    servername: YOUR_NORTHFLANK_DOMAIN
+    servername: YOUR_RENDER_DOMAIN
     ws-opts:
       path: /vless
       headers:
-        Host: YOUR_NORTHFLANK_DOMAIN
+        Host: YOUR_RENDER_DOMAIN
 
 proxy-groups:
   - name: PROXY
     type: select
     proxies:
-      - Northflank-VLESS
+      - Render-VLESS
       - DIRECT
 
 rules:
