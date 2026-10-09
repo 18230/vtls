@@ -50,3 +50,7 @@ UUID 建议只放在平台 Secret/环境变量中：
 - `YOUR_UUID` 替换为你在平台 Secret/环境变量中设置的 UUID。
 
 客户端仍然使用 `port: 443` 和 `tls: true`，因为 TLS 在平台边缘处理。
+
+## 演示记录
+
+- 2026-10-09：Muse 拉取修改流程演示。本行由 Muse 在分支 `demo/muse-flow-demo` 上提交，演示用，可直接丢弃。
