@@ -84,7 +84,8 @@ cat > /tmp/config.json <<EOF
 }
 EOF
 
-xray run -config /tmp/config.json &
+XRAY_BIN="${XRAY_BIN:-xray}"
+"$XRAY_BIN" run -config /tmp/config.json &
 xray_pid="$!"
 
 trap 'kill "$xray_pid" 2>/dev/null || true' INT TERM
@@ -94,7 +95,8 @@ if ! kill -0 "$xray_pid" 2>/dev/null; then
   fail "xray failed to start"
 fi
 
-node /server.js &
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+node "$SCRIPT_DIR/server.js" &
 server_pid="$!"
 
 wait "$server_pid"

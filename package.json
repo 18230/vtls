@@ -1,0 +1,27 @@
+{
+  "name": "vtls",
+  "version": "1.0.0",
+  "description": "--- title: vtls sdk: docker app_port: 8080 pinned: false ---",
+  "main": "server.js",
+  "scripts": {
+    "build": "node install-xray.js",
+    "start": "XRAY_BIN=./.xray/xray sh ./entrypoint.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/18230/vtls.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/18230/vtls/issues"
+  },
+  "homepage": "https://github.com/18230/vtls#readme",
+  "dependencies": {
+    "adm-zip": "^0.6.1"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  }
+}

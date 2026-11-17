@@ -26,6 +26,12 @@ UUID 建议只放在平台 Secret/环境变量中：
 使用部署时提供的 UUID，不要把真实 UUID 提交到公开仓库。
 ```
 
+## Node.js 部署
+
+使用 Linux x64 或 arm64、Node.js 20 或更高版本。构建命令为 `npm ci && npm run build`，启动命令为 `npm start`。构建脚本从 Xray 官方 GitHub Release 下载固定版本的二进制并校验 SHA-256。设置 `UUID` 为随机 UUID，`WS_PATH` 可选，默认 `/vless`；优先使用平台提供的 `PORT`。平台须支持 WebSocket 和构建时访问 GitHub Releases。
+
+Abasthan 的公开规则禁止代理服务，部署前请自行确认服务条款；免费实例闲置时可能休眠。
+
 ## Hugging Face Spaces 配置
 
 1. 创建 Space，SDK 选择 Docker。
